@@ -33,16 +33,13 @@
 
             function get(url) {
                 return new Promise((resolve, reject)=> {
-                    // 定義 Http request
                     var xhr = new XMLHttpRequest();
                     xhr.open('get', url,false);
                     xhr.onload = function() {
                     if (xhr.status == 200) {
-                        // 使用 resolve 回傳成功的結果，也可以在此直接轉換成 JSON 格式
                             const data = JSON.parse(xhr.responseText);
                         resolve(data);
                     } else {
-                        // 使用 reject 自訂失敗的結果
                         reject("資料讀取失敗")
                     }
                     };
@@ -50,7 +47,6 @@
                 });
             }
 
-            // 往後的 HTTP 直接就能透過 get 函式取得
             get('https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-D0047-063?Authorization=CWB-A47D0DB5-E6C5-4D37-BD32-070DB94B5ED9&format=JSON')
                 .then((data) => {
 
@@ -107,16 +103,13 @@
 
                 function get(url) {
                     return new Promise((resolve, reject)=> {
-                        // 定義 Http request
                         var xhr = new XMLHttpRequest();
                         xhr.open('get', url,false);
                         xhr.onload = function() {
                         if (xhr.status == 200) {
-                            // 使用 resolve 回傳成功的結果，也可以在此直接轉換成 JSON 格式
                                 const data = JSON.parse(xhr.responseText);
                             resolve(data);
                         } else {
-                            // 使用 reject 自訂失敗的結果
                             reject(new Error(xhr))
                         }
                         };
@@ -124,7 +117,6 @@
                     });
                 }
 
-                // 往後的 HTTP 直接就能透過 get 函式取得
                 get('https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-D0047-063?Authorization=CWB-A47D0DB5-E6C5-4D37-BD32-070DB94B5ED9&format=JSON')
                     .then((data) => {
                         
