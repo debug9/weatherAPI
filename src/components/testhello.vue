@@ -30,120 +30,145 @@
             }
         },
         created() { 
-            
 
-            var xhr = new XMLHttpRequest();
+            function get(url) {
+                return new Promise((resolve, reject)=> {
+                    // 定義 Http request
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('get', url,false);
+                    xhr.onload = function() {
+                    if (xhr.status == 200) {
+                        // 使用 resolve 回傳成功的結果，也可以在此直接轉換成 JSON 格式
+                            const data = JSON.parse(xhr.responseText);
+                        resolve(data);
+                    } else {
+                        // 使用 reject 自訂失敗的結果
+                        reject("資料讀取失敗")
+                    }
+                    };
+                    xhr.send(null);
+                });
+            }
 
-            xhr.open('get','https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-D0047-063?Authorization=CWB-A47D0DB5-E6C5-4D37-BD32-070DB94B5ED9&format=JSON',false)
+            // 往後的 HTTP 直接就能透過 get 函式取得
+            get('https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-D0047-063?Authorization=CWB-A47D0DB5-E6C5-4D37-BD32-070DB94B5ED9&format=JSON')
+                .then((data) => {
 
-            xhr.send(null)
+                    const location = data.cwbopendata.dataset.locations.location;
 
-            const data = JSON.parse(xhr.responseText);
-
-            const location = data.cwbopendata.dataset.locations.location;
-
-            location.forEach((element,index) => {
-                this.locationNames.push({"index":index,"locationName":element.locationName} )
-
-            });
-
-                this.values.push([]);
-
-                const weatherElement = data.cwbopendata.dataset.locations.location[0].weatherElement;
-
-                weatherElement.forEach((element2,index2) => {
-
-                    //180個迴圈-index2-0-14
-
-                    this.values[0].push([]);
-
-                    const elDescription = element2.description;
-                    const eltime = element2.time;
-                    
-                    this.descriptions.push(elDescription);
-
-
-                    eltime.forEach((element3,index3) => {
-
-                        const WEValue = element3.elementValue.value;
-                        const WETime = element3.startTime;
-
-                        if(index2 >10 && index2<14){
-                            var a = data.cwbopendata.dataset.locations.location[0].weatherElement[index2].time[index3].elementValue[0].value;
-                            this.values[0][index2].push([WETime],[a]) 
-                        }
-                        else if(WEValue === null){
-                            this.values[0][index2].push([WETime],["未偵測"]) 
-                        }
-                        else{
-                            this.values[0][index2].push([WETime],[WEValue])
-                        }                        
+                    location.forEach((element,index) => {
+                        this.locationNames.push({"index":index,"locationName":element.locationName} )
                     });
-                });   
 
-            //不要刪console.log(data.cwbopendata.dataset.locations.location[0].weatherElement[0].time[0].elementValue.value)
-//                                                                    12區        15種             14時段      
+                    this.values.push([]);
 
-            const description = data.cwbopendata.dataset.locations.location[0].weatherElement;
+                    const weatherElement = data.cwbopendata.dataset.locations.location[0].weatherElement;
 
-            description.forEach((element,index) => {
-                this.descriptions.push({"index":index,"description":element.description} ) 
-            });
-        },
-        mounted(){
-            var height=this.$refs.ddd.clientHeight;
-            console.log(height)
+                    weatherElement.forEach((element2,index2) => {
 
+                        this.values[0].push([]);
+
+                        const elDescription = element2.description;
+                        const eltime = element2.time;
+                        
+                        this.descriptions.push(elDescription);
+
+
+                        eltime.forEach((element3,index3) => {
+
+                            const WEValue = element3.elementValue.value;
+                            const WETime = element3.startTime;
+
+                            if(index2 >10 && index2<14){
+                                var a = data.cwbopendata.dataset.locations.location[0].weatherElement[index2].time[index3].elementValue[0].value;
+                                this.values[0][index2].push([WETime],[a]) 
+                            }
+                            else if(WEValue === null){
+                                this.values[0][index2].push([WETime],["未偵測"]) 
+                            }
+                            else{
+                                this.values[0][index2].push([WETime],[WEValue])
+                            }                        
+                        });
+                    });  
+
+                    const description = data.cwbopendata.dataset.locations.location[0].weatherElement;
+
+                    description.forEach((element,index) => {
+                        this.descriptions.push({"index":index,"description":element.description} ) 
+                    });
+                })
+                .catch((res) => {
+                    console.error(res)
+                })
         },
         methods:{
             add(event){
-                
-                this.values = [];
-                this.descriptions = []
 
-                const xhr = new XMLHttpRequest();
-
-                xhr.open('get','https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-D0047-063?Authorization=CWB-A47D0DB5-E6C5-4D37-BD32-070DB94B5ED9&format=JSON',false)
-
-                xhr.send(null)
-
-                const data = JSON.parse(xhr.responseText);
-
-                this.values.push([])
-
-                const weatherElement = data.cwbopendata.dataset.locations.location[event.target.value].weatherElement
-
-                weatherElement.forEach((element2,index2) => {
-
-                    this.values[0].push([]);
-                
-                    const elDescription = element2.description;            
-                    const eltime = element2.time;
-
-                    this.descriptions.push(elDescription)
-
-                    eltime.forEach((element3,index3) => {
-
-                        const WEValue = element3.elementValue.value;
-                        const WETime = element3.startTime;
-
-
-                        if(index2 >10 && index2<14){
-                            var a = data.cwbopendata.dataset.locations.location[event.target.value].weatherElement[0].time[index3].elementValue.value;
-                            this.values[0][index2].push([WETime],[a]) 
+                function get(url) {
+                    return new Promise((resolve, reject)=> {
+                        // 定義 Http request
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('get', url,false);
+                        xhr.onload = function() {
+                        if (xhr.status == 200) {
+                            // 使用 resolve 回傳成功的結果，也可以在此直接轉換成 JSON 格式
+                                const data = JSON.parse(xhr.responseText);
+                            resolve(data);
+                        } else {
+                            // 使用 reject 自訂失敗的結果
+                            reject(new Error(xhr))
                         }
-                        else if(WEValue === null){
-                            
-                            this.values[0][index2].push([WETime],["未偵測"]) 
-                        }
-                        else{
-                            this.values[0][index2].push([WETime],[WEValue])
-                        }                  
+                        };
+                        xhr.send(null);
                     });
-                });
+                }
+
+                // 往後的 HTTP 直接就能透過 get 函式取得
+                get('https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-D0047-063?Authorization=CWB-A47D0DB5-E6C5-4D37-BD32-070DB94B5ED9&format=JSON')
+                    .then((data) => {
+                        
+                        this.values = [];
+                        this.descriptions = []
+                        this.values.push([])
+
+                        const weatherElement = data.cwbopendata.dataset.locations.location[event.target.value].weatherElement
+
+                        weatherElement.forEach((element2,index2) => {
+
+                            this.values[0].push([]);
+                        
+                            const elDescription = element2.description;            
+                            const eltime = element2.time;
+
+                            this.descriptions.push(elDescription)
+
+                            eltime.forEach((element3,index3) => {
+
+                                const WEValue = element3.elementValue.value;
+                                const WETime = element3.startTime;
+
+
+                                if(index2 >10 && index2<14){
+                                    var a = data.cwbopendata.dataset.locations.location[event.target.value].weatherElement[0].time[index3].elementValue.value;
+                                    this.values[0][index2].push([WETime],[a]) 
+                                }
+                                else if(WEValue === null){
+                                    
+                                    this.values[0][index2].push([WETime],["未偵測"]) 
+                                }
+                                else{
+                                    this.values[0][index2].push([WETime],[WEValue])
+                                }                  
+                            });
+                        });
+                    })
+                    .catch((res) => {
+                        console.error(res)
+                    })
+                }
             }
         }
-    }
 </script>
 
 <style>
