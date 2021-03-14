@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <img src="./assets/map.png">
+    <div class="menu">
+      <a href="#/taipei">台北市天氣預報</a><a href="#/rainwaterPH">2021年雨水酸鹼度值</a><a href="#/UV">紫外線指數</a>
+    </div>
     <router-view/>
   </div>
 </template>
@@ -17,7 +19,101 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 120px;
+  margin: 50px auto;
 }
+.menu{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-shadow: 0px 0px 5px 0px #cccccc;
+  padding: 20px;
+  background-color: #fff;
+  font-weight: bold;
+}
+.menu a{
+  margin-right: 50px;
+  text-decoration: none;
+  color: gray;
+}
+.menu a:last-child{
+  margin-right: 0;
+}
+
+
+.title_descript{
+    margin-bottom: 50px;
+    background: #fff;
+    width:100%;
+    padding: 10px 0;
+    position: fixed;
+    top: 6%
+}
+.content{
+    margin: 0 auto;
+    margin-top: 470px;
+    width: 900px;
+    border: 1px solid;
+    text-align: center;
+}
+
+.content.rainPH:nth-child(n+3){
+  margin-top: 0;
+}
+
+.title{
+    padding: 20px;
+    margin: 0;
+    border-bottom: 5px solid
+}
+
+.mainimg{
+    width: 20%;
+    height: 20%;
+}
+
+.content p,
+.rain_water_content p{
+    display: inline-block;
+    border-bottom: 1px solid;
+    padding: 10px 0;
+    margin: 0 auto;
+}
+
+
+.content p:nth-child(4n),
+.rainPH p:nth-child(2n-1),
+.content.uv p:nth-child(odd){
+    background-color: #99BBFF;
+}
+
+.content p:nth-child(even),
+.content.uv p:nth-child(odd){
+    width: 35%;
+    border-right: 1px solid #000;
+}
+
+.content.rainPH p:nth-child(2n-1){
+  width: 35%;
+}
+
+.rainPH p:nth-child(2n){
+    border-right: 0;
+    width: 64.6%;
+}
+
+.content p:nth-child(odd),
+.content.uv p:nth-child(even){
+    width: 64.6%;
+}
+
+.content.uv p:nth-child(even){
+  border-right: 0
+}
+
+.content.uv p:nth-child(17){
+  border-bottom: 0;
+}
+
+
 </style>
