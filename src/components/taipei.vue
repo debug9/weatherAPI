@@ -29,13 +29,14 @@
                 values: [],
                 weatherElement: null,
                 data: null,
-                APIurl: "https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/E-A0015-001?Authorization=CWB-A47D0DB5-E6C5-4D37-BD32-070DB94B5ED9&format=JSON"
+                APIurl: "https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-D0047-063?Authorization=CWB-A47D0DB5-E6C5-4D37-BD32-070DB94B5ED9&format=JSON"
             }
         },
         created () {
             this.$axios
                 .get(this.APIurl)
                 .then( data => {
+
                     this.data = data;
                     
                     const location = data.data.cwbopendata.dataset.locations.location
