@@ -78,6 +78,10 @@ export default {
     border-bottom: 1px solid;
     padding: 10px 0;
     margin: 0 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: -7px;
 }
 
 
