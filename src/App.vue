@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="menu">
-      <a href="#/taipei">台北市天氣預報</a><a href="#/rainwaterPH">2021年雨水酸鹼度值</a><a href="#/UV">紫外線指數</a>
+      <a href="#/">台北市天氣預報</a><a href="#/rainwaterPH">2021年全台雨水酸鹼度值</a><a href="#/UV">2021年全台紫外線指數</a>
     </div>
     <router-view/>
   </div>
@@ -30,6 +30,7 @@ export default {
   padding: 20px;
   background-color: #fff;
   font-weight: bold;
+  width: 100%;
 }
 .menu a{
   margin-right: 50px;
@@ -39,7 +40,6 @@ export default {
 .menu a:last-child{
   margin-right: 0;
 }
-
 
 .title_descript{
     margin-bottom: 50px;
@@ -115,5 +115,39 @@ export default {
   border-bottom: 0;
 }
 
+
+
+@media screen and (max-width:480px){
+  .menu,.title_descript,.content{
+    width: 100%;
+  }
+
+  .menu a{
+    display: block;
+    text-align: center;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .title_descript{
+    top:15%
+  }
+
+  .title_descript img{
+    width: 80%;
+    height: 300px;
+  }
+
+  .title_descript select{
+    margin: 0 auto;
+    width: 90%;
+    height: 40px;
+  }
+
+  .content{
+    margin-top: 550px;
+  }
+
+}
 
 </style>

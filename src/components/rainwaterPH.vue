@@ -42,7 +42,7 @@
             this.$axios
                 .get(this.APIurl)
                 .then( data => {
-
+                    
                     console.log(data)
 
                     const months = data.data.cwbopendata.dataset.weatherElement;
